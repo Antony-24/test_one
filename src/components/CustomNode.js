@@ -19,7 +19,7 @@ export default function CustomNode({ data }) {
       <Handle type="target" position={Position.Top}  />
       <img src={data.img} alt={data.label} style={{position:'absolute',top: '-25px ' }} />
       <span className='p-2'>{data.label}</span>
-      <Handle type="source" position={Position.Bottom} style={handleStyle} />
+      <Handle type="source" position={Position.Top} style={handleStyle} />
     </div>
   );
 }

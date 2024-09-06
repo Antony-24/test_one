@@ -91,17 +91,9 @@ const jsonData = {
 
 function generateNodesAndEdges(data, parentId = null, nodes = [], edges = [], position = { x: 0, y: 0 }, level = 0) {
   // Base spacing values
-  const baseXSpacing = 100; // Base spacing
-  const baseYSpacing = 200; // Vertical spacing between levels
-  const spouseXSpacing = 300; // Spacing for spouse nodes
-  const baseChildOffset = 200; // Additional offset for child nodes
-
-  // Calculate dynamic spacing
-  const childCount = data.children ? data.children.length : 0;
-  const maxChildren = Math.max(childCount, 1); // Ensure at least 1 for spacing calculations
-  const xSpacing = baseXSpacing * maxChildren; // Scale xSpacing based on number of children
-  const ySpacing = baseYSpacing;
-  const childXSpacing = xSpacing + baseChildOffset; // Extra space around children
+  const baseXSpacing = 700; // Increased spacing to prevent overlap
+  const baseYSpacing = 250; // Increased vertical spacing between levels
+  const spouseXSpacing = 280; // Spacing for spouse nodes
 
   // Generate unique ID for the current node
   const currentId = nodes.length + 1;
@@ -109,7 +101,7 @@ function generateNodesAndEdges(data, parentId = null, nodes = [], edges = [], po
   // Add the current node
   nodes.push({
     id: `${currentId}`,
-    position: { ...position },
+    position: { x: position.x, y: position.y },
     type: 'custom',
     data: { label: data.name, img: data.image },
   });
@@ -130,7 +122,7 @@ function generateNodesAndEdges(data, parentId = null, nodes = [], edges = [], po
     const spouseId = nodes.length + 1;
     nodes.push({
       id: `${spouseId}`,
-      position: { x: position.x + spouseXSpacing, y: position.y }, // Place spouse node with extra space
+      position: { x: position.x + spouseXSpacing, y: position.y },
       type: 'custom',
       data: { label: data.spouse, img: data.spouseimage },
     });
@@ -139,7 +131,7 @@ function generateNodesAndEdges(data, parentId = null, nodes = [], edges = [], po
       id: `e${currentId}-${spouseId}`,
       source: `${currentId}`,
       target: `${spouseId}`,
-      type: 'smoothstep',
+      type: 'straight',
       style: { strokeWidth: 2 } // Optional: adjust edge style
     });
   }
@@ -147,7 +139,8 @@ function generateNodesAndEdges(data, parentId = null, nodes = [], edges = [], po
   // Add child nodes and edges if present
   if (data.children && data.children.length > 0) {
     const childCount = data.children.length;
-    const childXOffset = -(childXSpacing * (childCount - 1)) / 2; // Center children under the parent
+    const childSpacing = baseXSpacing * 1.5; // Ensure enough space between children
+    const initialOffset = -((childSpacing * (childCount - 1)) / 2); // Center children under the parent
 
     data.children.forEach((child, index) => {
       generateNodesAndEdges(
@@ -155,8 +148,8 @@ function generateNodesAndEdges(data, parentId = null, nodes = [], edges = [], po
         currentId, // Pass currentId as parentId for children
         nodes,
         edges,
-        { x: position.x + childXOffset + index * childXSpacing, y: position.y + ySpacing },
-        level + 1 // Increase the level for child nodes
+        { x: position.x + initialOffset + index * childSpacing, y: position.y + baseYSpacing },
+        level + 1
       );
     });
   }
