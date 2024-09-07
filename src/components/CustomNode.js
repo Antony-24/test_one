@@ -2,7 +2,7 @@ import React from 'react';
 import { Handle, Position } from 'reactflow';
 import EllipsisButton from './MenuButton';
 
-const handleStyle = { left: 10, background: '#555' };
+const handleStyle = { left: 1, background: '#555' };
 
 export default function CustomNode({ data }) {
   return (
@@ -16,10 +16,11 @@ export default function CustomNode({ data }) {
       alignItems: 'center' 
     }}>
       <EllipsisButton style={{position:'absolute',right: '0 ' }}/>
-      <Handle type="target" position={Position.Top}  />
+      <Handle type="target"  />
       <img src={data.img} alt={data.label} style={{position:'absolute',top: '-25px ' }} />
       <span className='p-2'>{data.label}</span>
-      <Handle type="source" position={Position.Top} style={handleStyle} />
+      <Handle type="source" style={handleStyle} />
+    
     </div>
   );
 }

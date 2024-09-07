@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-.react-flow__node.react-flow__node-special.nopan.selectable{
-    height: 120px !important;
+.rd3t-link {
+    fill: none;
+    stroke: #dcdcdc !important;
+}
+
+.rd3t-node,.rd3t-leaf-node {
+    cursor: pointer;
+    fill: #333333;
+    stroke: none !important;
+    stroke-width: 2;
 }
